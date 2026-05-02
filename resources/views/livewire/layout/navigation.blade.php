@@ -107,6 +107,17 @@ new class extends Component
             <x-responsive-nav-link :href="route('contests.index')" :active="request()->routeIs('contests.*') || (request()->routeIs('problems.show') && request()->has('contest'))" wire:navigate>
                 {{ __('Contests') }}
             </x-responsive-nav-link>
+            @if(auth()->user()->type === 'admin')
+                <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>
+                    {{ __('Manage Users') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.problems')" :active="request()->routeIs('admin.problems')" wire:navigate>
+                    {{ __('Manage Problems') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.contests')" :active="request()->routeIs('admin.contests')" wire:navigate>
+                    {{ __('Manage Contests') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

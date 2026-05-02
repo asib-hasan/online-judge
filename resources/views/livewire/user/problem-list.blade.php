@@ -27,7 +27,7 @@
                             </div>
                         </td>
                         <td class="py-4 px-6 border-b text-gray-700">
-                            <a href="{{ route('problems.show', $problem) }}" class="text-blue-500 hover:underline">View & Submit</a>
+                            <a href="{{ route('problems.show', $problem) }}" class="text-blue-500 hover:underline font-semibold">Solve</a>
                         </td>
                     </tr>
                     @endforeach

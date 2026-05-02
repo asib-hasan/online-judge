@@ -1,11 +1,11 @@
 <div>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ $problem->title }}
             </h2>
             @if($contest)
-                <div class="flex items-center gap-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
                     <div x-data="{
                             endTime: new Date('{{ $contest->end_time->toIso8601String() }}').getTime(),
                             nowOffset: new Date('{{ now()->toIso8601String() }}').getTime() - new Date().getTime(),
@@ -26,10 +26,10 @@
                             }
                         }" 
                         class="bg-red-100 text-red-700 px-4 py-1.5 rounded-full font-mono font-bold text-sm shadow-sm flex items-center gap-2">
-                        <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span x-text="remaining">Loading timer...</span>
+                        <svg class="w-4 h-4 animate-pulse shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span x-text="remaining" class="whitespace-nowrap">Loading timer...</span>
                     </div>
-                    <a href="{{ route('contests.show', $contest) }}" wire:navigate class="text-sm text-indigo-600 hover:underline font-semibold">
+                    <a href="{{ route('contests.show', $contest) }}" wire:navigate class="text-sm text-indigo-600 hover:underline font-semibold whitespace-nowrap">
                         &larr; Back to Contest
                     </a>
                 </div>
@@ -52,19 +52,31 @@
                         {!! nl2br(e($problem->description)) !!}
                     </div>
                     
-                    @if($problem->test_cases)
+                    @php
+                        $sampleCases = [];
+                        if (!empty($problem->sample_test_cases)) {
+                            $sampleCases = json_decode($problem->sample_test_cases, true) ?? [];
+                        } else if (!empty($problem->test_cases)) {
+                            $allTestCases = json_decode($problem->test_cases, true) ?? [];
+                            if (count($allTestCases) > 0) {
+                                $sampleCases = [$allTestCases[0]];
+                            }
+                        }
+                    @endphp
+
+                    @if(count($sampleCases) > 0)
                         <div class="mt-10 pt-8 border-t border-gray-100">
                             <h3 class="text-sm uppercase tracking-wider text-gray-500 font-bold mb-4">Examples</h3>
                             <div class="space-y-4">
-                                @foreach(json_decode($problem->test_cases, true) ?? [] as $index => $tc)
+                                @foreach($sampleCases as $index => $tc)
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
                                         <div class="mb-3">
                                             <strong class="text-slate-700 text-sm uppercase tracking-wide">Input:</strong>
-                                            <div class="bg-white border border-slate-200 font-mono text-sm p-3 rounded mt-1 text-slate-800 overflow-x-auto whitespace-pre-wrap">{{ $tc['input'] }}</div>
+                                            <div class="bg-white border border-slate-200 font-mono text-sm p-3 rounded mt-1 text-slate-800 overflow-x-auto whitespace-pre-wrap">{{ $tc['input'] ?? '' }}</div>
                                         </div>
                                         <div>
                                             <strong class="text-slate-700 text-sm uppercase tracking-wide">Output:</strong>
-                                            <div class="bg-white border border-slate-200 font-mono text-sm p-3 rounded mt-1 text-slate-800 overflow-x-auto whitespace-pre-wrap">{{ $tc['output'] }}</div>
+                                            <div class="bg-white border border-slate-200 font-mono text-sm p-3 rounded mt-1 text-slate-800 overflow-x-auto whitespace-pre-wrap">{{ $tc['output'] ?? '' }}</div>
                                         </div>
                                     </div>
                                 @endforeach

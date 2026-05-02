@@ -10,7 +10,7 @@ class ProblemManager extends Component
 {
     use WithPagination;
 
-    public $title, $description, $test_cases, $problemId;
+    public $title, $description, $test_cases, $sample_test_cases, $problemId;
     public $isEdit = false;
 
     public function render()
@@ -25,6 +25,7 @@ class ProblemManager extends Component
         $this->title = '';
         $this->description = '';
         $this->test_cases = '';
+        $this->sample_test_cases = '';
         $this->problemId = null;
         $this->isEdit = false;
     }
@@ -42,12 +43,14 @@ class ProblemManager extends Component
                 'title' => $this->title,
                 'description' => $this->description,
                 'test_cases' => $this->test_cases,
+                'sample_test_cases' => $this->sample_test_cases,
             ]);
         } else {
             Problem::create([
                 'title' => $this->title,
                 'description' => $this->description,
                 'test_cases' => $this->test_cases,
+                'sample_test_cases' => $this->sample_test_cases,
             ]);
         }
 
@@ -60,6 +63,7 @@ class ProblemManager extends Component
         $this->title = $problem->title;
         $this->description = $problem->description;
         $this->test_cases = $problem->test_cases;
+        $this->sample_test_cases = $problem->sample_test_cases;
         $this->problemId = $problem->id;
         $this->isEdit = true;
     }
