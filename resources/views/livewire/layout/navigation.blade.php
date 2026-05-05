@@ -39,6 +39,9 @@ new class extends Component
                     <x-nav-link :href="route('contests.index')" :active="request()->routeIs('contests.*') || (request()->routeIs('problems.show') && request()->has('contest'))" wire:navigate>
                         {{ __('Contests') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('tutorial.python')" :active="request()->routeIs('tutorial.*')" wire:navigate>
+                        {{ __('Python Tutorial') }}
+                    </x-nav-link>
                     @if(auth()->user()->type === 'admin')
                         <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>
                             {{ __('Manage Users') }}
@@ -106,6 +109,9 @@ new class extends Component
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('contests.index')" :active="request()->routeIs('contests.*') || (request()->routeIs('problems.show') && request()->has('contest'))" wire:navigate>
                 {{ __('Contests') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tutorial.python')" :active="request()->routeIs('tutorial.*')" wire:navigate>
+                {{ __('Python Tutorial') }}
             </x-responsive-nav-link>
             @if(auth()->user()->type === 'admin')
                 <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>

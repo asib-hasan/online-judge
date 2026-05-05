@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/problems/{problem}', ProblemShow::class)->name('problems.show');
     Route::get('/contests', ContestList::class)->name('contests.index');
     Route::get('/contests/{contest}', ContestShow::class)->name('contests.show');
+    Route::view('/tutorial/python', 'tutorial')->name('tutorial.python');
+
 
     // Admin routes
     Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
